@@ -1,0 +1,201 @@
+﻿<Window x:Class="GymManagementSystem.Views.ReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Raporlar" Height="700" Width="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}">
+            <TextBlock Text="📊  Raporlar ve Butce Ozeti" FontSize="18" FontWeight="Bold"
+                       Foreground="White" VerticalAlignment="Center" Margin="25,0"/>
+        </Border>
+
+        <!-- İçerik -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="300"/>
+                </Grid.RowDefinitions>
+
+                <!-- Filtre Kartı -->
+                <Border Grid.Row="0" Style="{StaticResource CardStyle}" Margin="0,0,0,10">
+                    <StackPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                        <TextBlock Text="Yil:" Style="{StaticResource LabelStyle}"
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="YearBox" Width="70" Height="36"
+                                 Text="2026" Margin="0,0,15,0"/>
+
+                        <TextBlock Text="Ay:" Style="{StaticResource LabelStyle}"
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox x:Name="MonthCombo" Width="120" Height="36"
+                                  Margin="0,0,15,0">
+                            <ComboBoxItem Content="Ocak" Tag="1"/>
+                            <ComboBoxItem Content="Subat" Tag="2"/>
+                            <ComboBoxItem Content="Mart" Tag="3"/>
+                            <ComboBoxItem Content="Nisan" Tag="4"/>
+                            <ComboBoxItem Content="Mayis" Tag="5"/>
+                            <ComboBoxItem Content="Haziran" Tag="6"/>
+                            <ComboBoxItem Content="Temmuz" Tag="7"/>
+                            <ComboBoxItem Content="Agustos" Tag="8"/>
+                            <ComboBoxItem Content="Eylul" Tag="9"/>
+                            <ComboBoxItem Content="Ekim" Tag="10"/>
+                            <ComboBoxItem Content="Kasim" Tag="11"/>
+                            <ComboBoxItem Content="Aralik" Tag="12"/>
+                        </ComboBox>
+
+                        <Button Content="📅 Aylik Rapor" Width="120" Height="36"
+                                Background="{StaticResource SecondaryBrush}"
+                                Margin="0,0,8,0" Click="MonthlyReportButton_Click"/>
+
+                        <Button Content="📆 Yillik Rapor" Width="120" Height="36"
+                                Background="{StaticResource DangerBrush}"
+                                Click="YearlyReportButton_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Özet Kartlar -->
+                <Grid Grid.Row="1" Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Background="{StaticResource SuccessBrush}"
+                            CornerRadius="10" Padding="15,12" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="💰 Toplam Gelir" Foreground="White"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="TotalIncomeText" Text="0,00 TL"
+                                       Foreground="White" FontSize="20"
+                                       FontWeight="Bold" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Background="{StaticResource DangerBrush}"
+                            CornerRadius="10" Padding="15,12" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="💸 Toplam Gider" Foreground="White"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="TotalExpenseText" Text="0,00 TL"
+                                       Foreground="White" FontSize="20"
+                                       FontWeight="Bold" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Background="{StaticResource PrimaryBrush}"
+                            CornerRadius="10" Padding="15,12" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="📈 Net Bakiye" Foreground="White"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="NetBalanceText" Text="0,00 TL"
+                                       Foreground="White" FontSize="20"
+                                       FontWeight="Bold" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="3" Background="#F39C12"
+                            CornerRadius="10" Padding="15,12">
+                        <StackPanel>
+                            <TextBlock Text="⚠️ Rapor Uyarilari" Foreground="White"
+                                       FontSize="12" FontWeight="SemiBold"/>
+                            <TextBlock x:Name="NotificationCountText" Text="0"
+                                       Foreground="White" FontSize="20"
+                                       FontWeight="Bold" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Tablo -->
+                <Border Grid.Row="2" Style="{StaticResource CardStyle}">
+                    <TabControl BorderThickness="0" Background="Transparent">
+                        <TabItem Header="📅 Butce Ozeti">
+                            <DataGrid x:Name="ReportGrid"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True" Margin="0,10,0,0">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Donem"
+                                                       Binding="{Binding PeriodLabel}" Width="80"/>
+                                    <DataGridTextColumn Header="Gelir (TL)"
+                                                       Binding="{Binding TotalIncome, StringFormat=N2}"
+                                                       Width="120"/>
+                                    <DataGridTextColumn Header="Gider (TL)"
+                                                       Binding="{Binding TotalExpense, StringFormat=N2}"
+                                                       Width="120"/>
+                                    <DataGridTextColumn Header="Net Bakiye (TL)"
+                                                       Binding="{Binding NetBalance, StringFormat=N2}"
+                                                       Width="130"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+
+                        <TabItem Header="⚠️ Rapor Uyarilari">
+                            <DataGrid x:Name="NotificationGrid"
+                                      AutoGenerateColumns="False"
+                                      IsReadOnly="True" Margin="0,10,0,0">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Uye"
+                                                       Binding="{Binding MemberName}" Width="150"/>
+                                    <DataGridTextColumn Header="Mesaj"
+                                                       Binding="{Binding Message}" Width="400"/>
+                                    <DataGridTemplateColumn Header="Tur" Width="150">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border CornerRadius="4" Padding="6,3"
+                                                        HorizontalAlignment="Center">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Type}"
+                                                                             Value="ReportExpired">
+                                                                    <Setter Property="Background" Value="#FED7D7"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding Type}"
+                                                                             Value="ReportExpiringSoon">
+                                                                    <Setter Property="Background" Value="#FEFCBF"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock FontSize="11" FontWeight="SemiBold">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Type}"
+                                                                                 Value="ReportExpired">
+                                                                        <Setter Property="Text" Value="❌ Suresi Doldu"/>
+                                                                        <Setter Property="Foreground" Value="#9B2335"/>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Type}"
+                                                                                 Value="ReportExpiringSoon">
+                                                                        <Setter Property="Text" Value="⚠️ Yakin Doluyor"/>
+                                                                        <Setter Property="Foreground" Value="#744210"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                    </TabControl>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Window>

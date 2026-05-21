@@ -1,0 +1,119 @@
+﻿<Window x:Class="GymManagementSystem.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Spor Salonu Yonetim Sistemi" Height="580" Width="480"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <!-- Üst Header -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}">
+            <StackPanel VerticalAlignment="Center" Margin="25,0">
+                <TextBlock Text="🏋️ Spor Salonu Yonetim Sistemi"
+                           FontSize="18" FontWeight="Bold" Foreground="White"/>
+                <TextBlock x:Name="WelcomeText" FontSize="13"
+                           Foreground="#90CDF4" Margin="0,5,0,0"/>
+                <TextBlock x:Name="RolText" FontSize="11"
+                           Foreground="#63B3ED" Margin="0,2,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Bildirim Banner -->
+        <Border x:Name="NotificationBanner" Grid.Row="0"
+                Background="#F6AD55" VerticalAlignment="Bottom"
+                Padding="15,8" Visibility="Collapsed">
+            <TextBlock x:Name="NotificationText" Foreground="White"
+                       FontWeight="SemiBold" FontSize="12"/>
+        </Border>
+
+        <!-- Menü Butonları -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="25,20">
+
+                <Button x:Name="MemberButton" Height="52" Margin="0,0,0,10"
+                        Background="{StaticResource SecondaryBrush}"
+                        Click="MemberButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="👤" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Uye Yonetimi" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="PackageButton" Height="52" Margin="0,0,0,10"
+                        Background="#2ECC71"
+                        Click="PackageButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📦" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Paket Yonetimi" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="SubscriptionButton" Height="52" Margin="0,0,0,10"
+                        Background="#16A085"
+                        Click="SubscriptionButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🎫" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Abonelik Yonetimi" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="PaymentButton" Height="52" Margin="0,0,0,10"
+                        Background="#8E44AD"
+                        Click="PaymentButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="💳" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Odeme Islemleri" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="DeviceButton" Height="52" Margin="0,0,0,10"
+                        Background="#E67E22"
+                        Click="DeviceButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🔧" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Cihaz ve Bakim Yonetimi" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="ReportButton" Height="52" Margin="0,0,0,10"
+                        Background="#C0392B"
+                        Click="ReportButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="📊" FontSize="18" VerticalAlignment="Center"
+                                   Margin="0,0,10,0"/>
+                        <TextBlock Text="Raporlar" FontSize="14"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Alt Bar -->
+        <Border Grid.Row="2" Background="White"
+                BorderBrush="#CBD5E0" BorderThickness="0,1,0,0">
+            <Button Content="🚪  Cikis Yap" Height="40" Width="150"
+                    HorizontalAlignment="Right" Margin="0,0,25,0"
+                    Background="#718096"
+                    Click="LogoutButton_Click"/>
+        </Border>
+
+    </Grid>
+</Window>

@@ -1,0 +1,55 @@
+﻿<Window x:Class="GymManagementSystem.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Spor Salonu - Giris" Height="480" Width="420"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Üst Banner -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="🏋️" FontSize="40" HorizontalAlignment="Center"/>
+                <TextBlock Text="SPOR SALONU" FontSize="20" FontWeight="Bold"
+                           Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock Text="Yonetim Sistemi" FontSize="13"
+                           Foreground="#90CDF4" HorizontalAlignment="Center"
+                           Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Form Kartı -->
+        <Border Grid.Row="1" Margin="30,-20,30,30"
+                Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="Giris Yap" FontSize="18" FontWeight="Bold"
+                           Foreground="{StaticResource PrimaryBrush}"
+                           Margin="0,0,0,20"/>
+
+                <TextBlock Text="Kullanici Adi" Style="{StaticResource LabelStyle}"/>
+                <TextBox x:Name="UsernameTextBox" Height="38" Margin="0,0,0,15"/>
+
+                <TextBlock Text="Sifre" Style="{StaticResource LabelStyle}"/>
+                <PasswordBox x:Name="PasswordBox" Height="38" Margin="0,0,0,20"/>
+
+                <Button Content="Giris Yap" Height="42"
+                        Background="{StaticResource PrimaryBrush}"
+                        Click="LoginButton_Click"/>
+
+                <Border x:Name="ErrorBorder" Background="#FFF5F5"
+                        BorderBrush="#FC8181" BorderThickness="1"
+                        CornerRadius="5" Padding="10,8"
+                        Margin="0,12,0,0" Visibility="Collapsed">
+                    <TextBlock x:Name="ErrorText" Foreground="#C53030"
+                               FontSize="12" TextWrapping="Wrap"/>
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

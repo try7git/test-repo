@@ -1,0 +1,166 @@
+﻿<Window x:Class="GymManagementSystem.Views.MemberWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Uye Yonetimi" Height="650" Width="950"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        Background="#F0F4F8">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource PrimaryBrush}">
+            <TextBlock Text="👤  Uye Yonetimi" FontSize="18" FontWeight="Bold"
+                       Foreground="White" VerticalAlignment="Center" Margin="25,0"/>
+        </Border>
+
+        <!-- İçerik -->
+        <Grid Grid.Row="1" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sol: Liste -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}"
+                    Margin="0,0,10,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Uye Listesi"
+                               Style="{StaticResource TitleStyle}"
+                               FontSize="15" Margin="0,0,0,10"/>
+
+                    <DataGrid Grid.Row="1" x:Name="MembersGrid"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              SelectionChanged="MembersGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ad Soyad"
+                                               Binding="{Binding FullName}" Width="150"/>
+                            <DataGridTextColumn Header="TC Kimlik"
+                                               Binding="{Binding NationalId}" Width="110"/>
+                            <DataGridTextColumn Header="Telefon"
+                                               Binding="{Binding Phone}" Width="110"/>
+                            <DataGridTemplateColumn Header="Rapor Durumu" Width="120">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="4" Padding="6,3"
+                                                HorizontalAlignment="Center">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                     Value="Valid">
+                                                            <Setter Property="Background" Value="#C6F6D5"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                     Value="ExpiringSoon">
+                                                            <Setter Property="Background" Value="#FEFCBF"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                     Value="Expired">
+                                                            <Setter Property="Background" Value="#FED7D7"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock FontSize="11" FontWeight="SemiBold">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                         Value="Valid">
+                                                                <Setter Property="Text" Value="✅ Gecerli"/>
+                                                                <Setter Property="Foreground" Value="#276749"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                         Value="ExpiringSoon">
+                                                                <Setter Property="Text" Value="⚠️ Yakin"/>
+                                                                <Setter Property="Foreground" Value="#744210"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding MedicalReport.Status}"
+                                                                         Value="Expired">
+                                                                <Setter Property="Text" Value="❌ Gecersiz"/>
+                                                                <Setter Property="Foreground" Value="#9B2335"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal"
+                                Margin="0,10,0,0">
+                        <Button Content="🔄 Yenile" Width="90" Height="35"
+                                Background="#718096" Margin="0,0,8,0"
+                                Click="RefreshButton_Click"/>
+                        <Button Content="🗑️ Sil" Width="90" Height="35"
+                                Background="{StaticResource DangerBrush}"
+                                Click="DeleteButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Sağ: Form -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="Uye Ekle / Duzenle"
+                                   Style="{StaticResource TitleStyle}"
+                                   FontSize="15" Margin="0,0,0,15"/>
+
+                        <TextBlock Text="Ad" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="FirstNameBox" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Soyad" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="LastNameBox" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="TC Kimlik No" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="NationalIdBox" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Dogum Tarihi" Style="{StaticResource LabelStyle}"/>
+                        <DatePicker x:Name="BirthDatePicker" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Telefon" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="PhoneBox" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Email" Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="EmailBox" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Saglik Raporu Tarihi" Style="{StaticResource LabelStyle}"/>
+                        <DatePicker x:Name="ReportDatePicker" Height="36" Margin="0,0,0,10"/>
+
+                        <TextBlock Text="Raporu Veren Doktor/Kurum"
+                                   Style="{StaticResource LabelStyle}"/>
+                        <TextBox x:Name="IssuedByBox" Height="36" Margin="0,0,0,15"/>
+
+                        <Button Content="💾 Kaydet" Height="42"
+                                Background="{StaticResource SuccessBrush}"
+                                Click="SaveButton_Click"/>
+
+                        <Border x:Name="MessageBorder" CornerRadius="5"
+                                Padding="10,8" Margin="0,10,0,0"
+                                Visibility="Collapsed">
+                            <TextBlock x:Name="MessageText" FontSize="12"
+                                       TextWrapping="Wrap"/>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

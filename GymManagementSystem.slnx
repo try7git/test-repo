@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GymManagementSystem.Core/GymManagementSystem.Core.csproj" Id="7b7f6cab-2fcc-4a83-87b6-a4294083638c" />
+  <Project Path="GymManagementSystem.Data/GymManagementSystem.Data.csproj" Id="176bbe68-0baa-4a05-9294-345c4c949bb0" />
+  <Project Path="GymManagementSystem.Tests/GymManagementSystem.Tests.csproj" Id="7fb797ef-ef6b-47ba-97bd-b5f03527b1c0" />
+  <Project Path="GymManagementSystem/GymManagementSystem.csproj" />
+</Solution>
